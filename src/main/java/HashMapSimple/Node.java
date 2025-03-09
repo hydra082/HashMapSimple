@@ -7,6 +7,7 @@ package HashMapSimple;
  * @param <K> тип ключа
  * @param <V> тип значения
  */
+
 public class Node<K, V> implements MapSimple.Entry<K, V> {
     /** Хэш-код ключа, используемый для сравнения. */
     final int hash;

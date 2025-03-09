@@ -15,6 +15,7 @@ public interface MapSimple <K, V> {
     Iterable <V> values();
     Iterable <Entry<K, V>> entrySet();
 
+
     /**
      * Вложенный интерфейс, представляющий одну пару ключ-значение в таблице.
      *
