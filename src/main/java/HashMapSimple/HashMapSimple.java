@@ -11,7 +11,6 @@ import java.util.Iterator;
  * @param <V> тип значений, связанных с ключами
  */
 public class HashMapSimple<K, V> implements MapSimple<K, V> {
-
     /** Начальная ёмкость хэш-таблицы по умолчанию. */
     private static final int DEFAULT_CAPACITY = 16;
     /**Коэффициент загрузки для увеличения размера таблицы. */
