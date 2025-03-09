@@ -1,6 +1,9 @@
-package HashMapSimple;
+//
+package com.example.hashmap_simple;
 
 import java.util.Iterator;
+import java.util.NoSuchElementException;
+import java.util.Objects;
 
 /**
  * Простая реализация хэш-таблицы для хранения пар ключ-значение.
@@ -24,8 +27,9 @@ public class HashMapSimple<K, V> implements MapSimple<K, V> {
     /**
      * Создаёт пустую хэш-таблицу с начальной ёмкостью по умолчанию (16).
      */
+    @SuppressWarnings("unchecked")
     public HashMapSimple() {
-        table = (Node<K, V>[]) new Node[DEFAULT_CAPACITY];
+        table = new Node[DEFAULT_CAPACITY];
         size = 0;
     }
 
@@ -44,9 +48,10 @@ public class HashMapSimple<K, V> implements MapSimple<K, V> {
      * Увеличивает размер хэш-таблицы, удваивая её ёмкость и перераспределяя все существующие записи.
      * Метод вызывается автоматически, когда размер превышает порог коэффициента загрузки (LOAD_FACTOR).
      */
+    @SuppressWarnings("unchecked")
     private void resize() {
         Node<K, V>[] oldTable = table;
-        table = (Node<K, V>[]) new Node[oldTable.length * 2];
+        table = new Node[oldTable.length * 2];
 
         for (Node<K, V> node : oldTable) {
             while (node != null) {
@@ -73,7 +78,7 @@ public class HashMapSimple<K, V> implements MapSimple<K, V> {
         Node<K, V> node = table[index];
         while (node != null) {
             if (node.hash == hash &&
-                    (key == node.key || (key != null && key.equals(node.key)))) {
+                    (Objects.equals(key, node.key))) {
                 return node.value;
             }
             node = node.next;
@@ -101,7 +106,7 @@ public class HashMapSimple<K, V> implements MapSimple<K, V> {
             Node<K, V> node = table[index];
             while (true) {
                 if (node.hash == hash &&
-                        (key == node.key || (key != null && key.equals(node.key)))) {
+                        (Objects.equals(key, node.key))) {
                     V oldValue = node.value;
                     node.value = value;
                     return oldValue;
@@ -134,7 +139,7 @@ public class HashMapSimple<K, V> implements MapSimple<K, V> {
         if (node == null) return null;
 
         if (node.hash == hash &&
-                (key == node.key || (key != null && key.equals(node.key)))) {
+                (Objects.equals(key, node.key))) {
             table[index] = node.next;
             size--;
             return node.value;
@@ -142,7 +147,7 @@ public class HashMapSimple<K, V> implements MapSimple<K, V> {
 
         while (node.next != null) {
             if (node.next.hash == hash &&
-                    (key == node.next.key || (key != null && key.equals(node.next.key)))) {
+                    (Objects.equals(key, node.next.key))) {
                 V oldValue = node.next.value;
                 node.next = node.next.next;
                 size--;
@@ -160,7 +165,7 @@ public class HashMapSimple<K, V> implements MapSimple<K, V> {
      */
     @Override
     public Iterable<K> keySet() {
-        return () -> new Iterator<K>() {
+        return () -> new Iterator<>() {
             private int index = 0;
             private Node<K, V> current = null;
 
@@ -174,7 +179,7 @@ public class HashMapSimple<K, V> implements MapSimple<K, V> {
 
             @Override
             public K next() {
-                if (!hasNext()) throw new IllegalStateException();
+                if (!hasNext()) throw new NoSuchElementException();
                 K key = current.key;
                 current = current.next;
                 return key;
@@ -189,7 +194,7 @@ public class HashMapSimple<K, V> implements MapSimple<K, V> {
      */
     @Override
     public Iterable<V> values() {
-        return () -> new Iterator<V>() {
+        return () -> new Iterator<>() {
             private int index = 0;
             private Node<K, V> current = null;
 
@@ -203,7 +208,7 @@ public class HashMapSimple<K, V> implements MapSimple<K, V> {
 
             @Override
             public V next() {
-                if (!hasNext()) throw new IllegalStateException();
+                if (!hasNext()) throw new NoSuchElementException();
                 V value = current.value;
                 current = current.next;
                 return value;
@@ -218,7 +223,7 @@ public class HashMapSimple<K, V> implements MapSimple<K, V> {
      */
     @Override
     public Iterable<Entry<K, V>> entrySet() {
-        return () -> new Iterator<Entry<K, V>>() {
+        return () -> new Iterator<>() {
             private int index = 0;
             private Node<K, V> current = null;
 
@@ -232,7 +237,7 @@ public class HashMapSimple<K, V> implements MapSimple<K, V> {
 
             @Override
             public Entry<K, V> next() {
-                if (!hasNext()) throw new IllegalStateException();
+                if (!hasNext()) throw new NoSuchElementException();
                 Node<K, V> entry = current;
                 current = current.next;
                 return entry;

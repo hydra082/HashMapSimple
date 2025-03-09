@@ -1,4 +1,4 @@
-package HashMapSimple;
+package com.example.hashmap_simple;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 
-public class HashMapSimpleDelPutGetTest {
+class HashMapSimpleDelPutGetTest {
     private HashMapSimple<String, Integer> map;
 
     @BeforeEach

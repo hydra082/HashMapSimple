@@ -1,13 +1,14 @@
-package HashMapSimple;
+package com.example.hashmap_simple;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.Iterator;
+import java.util.NoSuchElementException;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class HashMapSimpleIteratorsTest {
+class HashMapSimpleIteratorsTest {
     private HashMapSimple<String, Integer> map;
 
     @BeforeEach
@@ -82,15 +83,15 @@ public class HashMapSimpleIteratorsTest {
     @Test
     void testIteratorThrowsExceptionOnEmptyMap() {
         Iterator<String> keyIterator = map.keySet().iterator();
-        assertThrows(IllegalStateException.class, keyIterator::next,
+        assertThrows(NoSuchElementException.class, keyIterator::next,
                 "next() on empty keySet should throw IllegalStateException");
 
         Iterator<Integer> valueIterator = map.values().iterator();
-        assertThrows(IllegalStateException.class, valueIterator::next,
+        assertThrows(NoSuchElementException.class, valueIterator::next,
                 "next() on empty values should throw IllegalStateException");
 
         Iterator<HashMapSimple.Entry<String, Integer>> entryIterator = map.entrySet().iterator();
-        assertThrows(IllegalStateException.class, entryIterator::next,
+        assertThrows(NoSuchElementException.class, entryIterator::next,
                 "next() on empty entrySet should throw IllegalStateException");
     }
 }
