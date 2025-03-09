@@ -1,4 +1,4 @@
-package com.example.hashmap_simple;
+package HashMapSimple;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

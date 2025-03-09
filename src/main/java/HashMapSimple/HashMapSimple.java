@@ -1,5 +1,4 @@
-//
-package com.example.hashmap_simple;
+package HashMapSimple;
 
 import java.util.Iterator;
 import java.util.NoSuchElementException;
@@ -64,6 +63,10 @@ public class HashMapSimple<K, V> implements MapSimple<K, V> {
         }
     }
 
+    private boolean keysMatch(Node<K, V> node, K key, int hash) {
+        return node.hash == hash && (Objects.equals(key, node.key));
+    }
+
     /**
      * Возвращает значение, связанное с указанным ключом.
      *
@@ -77,8 +80,7 @@ public class HashMapSimple<K, V> implements MapSimple<K, V> {
 
         Node<K, V> node = table[index];
         while (node != null) {
-            if (node.hash == hash &&
-                    (Objects.equals(key, node.key))) {
+            if (keysMatch(node, key, hash)) {
                 return node.value;
             }
             node = node.next;
@@ -99,22 +101,22 @@ public class HashMapSimple<K, V> implements MapSimple<K, V> {
         int hash = key == null ? 0 : key.hashCode();
         int index = getIndex(hash, table.length);
 
-        if (table[index] == null) {
+        Node<K, V> node = table[index];
+        if (node == null) {
             table[index] = new Node<>(hash, key, value, null);
             size++;
         } else {
-            Node<K, V> node = table[index];
+            Node<K, V> current = node;
             while (true) {
-                if (node.hash == hash &&
-                        (Objects.equals(key, node.key))) {
-                    V oldValue = node.value;
-                    node.value = value;
+                if (keysMatch(current, key, hash)) {
+                    V oldValue = current.value;
+                    current.value = value;
                     return oldValue;
                 }
-                if (node.next == null) break;
-                node = node.next;
+                if (current.next == null) break;
+                current = current.next;
             }
-            node.next = new Node<>(hash, key, value, null);
+            current.next = new Node<>(hash, key, value, null);
             size++;
         }
 
@@ -138,16 +140,14 @@ public class HashMapSimple<K, V> implements MapSimple<K, V> {
         Node<K, V> node = table[index];
         if (node == null) return null;
 
-        if (node.hash == hash &&
-                (Objects.equals(key, node.key))) {
+        if (keysMatch(node, key, hash)) {
             table[index] = node.next;
             size--;
             return node.value;
         }
 
         while (node.next != null) {
-            if (node.next.hash == hash &&
-                    (Objects.equals(key, node.next.key))) {
+            if (keysMatch(node.next, key, hash)) {
                 V oldValue = node.next.value;
                 node.next = node.next.next;
                 size--;

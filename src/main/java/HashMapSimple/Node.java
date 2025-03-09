@@ -1,4 +1,4 @@
-package com.example.hashmap_simple;
+package HashMapSimple;
 
 /**
  * Узел хэш-таблицы, содержащий пару ключ-значение.

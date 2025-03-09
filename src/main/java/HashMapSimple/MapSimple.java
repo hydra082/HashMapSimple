@@ -1,4 +1,4 @@
-package com.example.hashmap_simple;
+package HashMapSimple;
 
 /**
  * Простой интерфейс для ассоциативного массива (хэш-таблицы).
